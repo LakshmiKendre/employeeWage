@@ -1,0 +1,14 @@
+#!/bin/bash -x
+
+echo "Welcome to EmployeeWage"
+WAGE_PER_HOUR=20
+FULL_DAY_HOUR=8
+attendance=$((RANDOM%3))
+if [ attendance -eq 0 ]
+then
+	echo Absent
+	echo "Daily wage = 0"
+elif [attendance -eq 1 ]
+	echo Present
+	echo wage = 0" 
+fi
