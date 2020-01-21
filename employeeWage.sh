@@ -11,7 +11,7 @@ day=1
 hour=0
 salary=0
 
-# calculating monthly salary
+# calculating 100 hours salary
 while [ $day -le 20 -a $hour -lt 100 ]
 do
 
@@ -42,7 +42,7 @@ let day++
 
 done
 
-# printing monthly salary
+# printing 100 hours salary
 echo "monthly salary is: " $salary
 
 
