@@ -8,24 +8,38 @@ HALF_DAY_HOUR=4
 
 # Declaring variables
 day=1
+hour=0
 salary=0
 
 # calculating monthly salary
-while [ $day -le 20 ]
+while [ $day -le 20 -a $hour -lt 100 ]
 do
-	attendance=$((RANDOM%3))
+
+	attendance=$((RANDOM%2))
 	case $attendance in
 	0 )
-		salary=$((salary + 0)) 
+		hour=$((hour + FULL_DAY_HOUR))
+		if [ $hour -gt 100 ]
+		then
+			difference=$((hour - 100))
+			salary=$((salary + $((WAGE_PER_HOUR * FULL_DAY_HOUR)) - $((WAGE_PER_HOUR * difference)) ))
+		else
+			salary=$((salary + $((WAGE_PER_HOUR * FULL_DAY_HOUR)) ))
+		fi
 		;;
 	1 )
-		salary=$((salary + $((WAGE_PER_HOUR * FULL_DAY_HOUR)) ))
-		;;
-	2 )
-		salary=$((salary + $((WAGE_PER_HOUR * HALF_DAY_HOUR)) ))
+		hour=$((hour + HALF_DAY_HOUR))
+		if [ $hour -gt 100 ]
+		then
+			difference=$((hour - 100))
+			salary=$((salary + $((WAGE_PER_HOUR * HALF_DAY_HOUR)) - $((WAGE_PER_HOUR * difference)) ))
+		else
+			salary=$((salary + $((WAGE_PER_HOUR * HALF_DAY_HOUR)) ))
+		fi
 		;;
 	esac
 let day++
+
 done
 
 # printing monthly salary
