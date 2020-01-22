@@ -24,33 +24,34 @@ get_working_hours()
 echo $working_hours
 }
 
-# calculating daily wage of Employee
+# calculating daily wage of employee
 Employee_wage_for_hour()
 {
-	work_hrs=$1
-	salary=$(($((WAGE_PER_HOUR * work_hrs)) ))
+	work_hour=$1
+	salary=$((WAGE_PER_HOUR * work_hour))
 	echo $salary
 }
 
+# calling function to calculating 100 hours salary
 while [ $day -le 20 -a $hour -lt 100 ]
 do
-	work_hour="$(get_working_hours)"
-	hour=$((hour+ work_hour))
-	total_salary=$((total_salary + "$(Employee_wage_for_hour $work_hour)"))
-	let day++
+	work_hrs="$(get_working_hours)"
+	arr[day]="$(Employee_wage_for_hour $work_hrs)"
+	total_salary=$((total_salary + ${arr[day]}))
+	hour=$((hour + work_hrs))
+	Day[day]="Day"$day
+let day++
 
 done
 
-# printing 100 hours salary
-
+# printing daily salary and 100 hours salary
+echo "${Day[@]}"
+echo "Daily salary: " ${arr[@]}
 if [ $hour -gt 100 ]
-then	
+then
 	diff=$((hour-100))
-	total_salary=$((total_salary - $(( $diff * WAGE_PER_HOUR )) ))
+	total_salary=$((total_salary + ${arr[day]} - $((WAGE_PER_HOUR * $diff )) ))
 	echo "Total salary is: " $total_salary
 else
 	echo "Total salary is: " $total_salary
 fi
-
-
-
