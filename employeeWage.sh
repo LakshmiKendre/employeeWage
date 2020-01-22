@@ -3,57 +3,55 @@
 echo "Welcome to EmployeeWage"
 # Declaring constants
 WAGE_PER_HOUR=20
-FULL_DAY_HOUR=8
-HALF_DAY_HOUR=4
 
 # Declaring variables
 day=1
 hour=0
-salary=0
+total_salary=0
 
-Employee_wage_for_hour()
+# Getting working hours
+get_working_hours()
 {
-	
-	if [ $attendance -eq 0 ]
-	then
-		hour=$((hour + FULL_DAY_HOUR))
-		if [ $hour -gt 100 ]
-		then
-			difference=$((hour - 100))
-			salary=$((salary + $((WAGE_PER_HOUR * FULL_DAY_HOUR)) - $((WAGE_PER_HOUR * difference)) ))
-		else
-			salary=$((salary + $((WAGE_PER_HOUR * FULL_DAY_HOUR)) ))
-		fi
-	else
-		hour=$((hour + HALF_DAY_HOUR))
-		if [ $hour -gt 100 ]
-		then
-			difference=$((hour - 100))
-			salary=$((salary + $((WAGE_PER_HOUR * HALF_DAY_HOUR)) - $((WAGE_PER_HOUR * difference)) ))
-		else
-			salary=$((salary + $((WAGE_PER_HOUR * HALF_DAY_HOUR)) ))
-		fi
-	fi
-}
-
-# calling function to calculating 100 hours salary
-while [ $day -le 20 -a $hour -lt 100 ]
-do
 	attendance=$((RANDOM%2))
 	case $attendance in
-	0 )
-		Employee_wage_for_hour
+	0)
+		working_hours=8
 		;;
-	1 )
-		Employee_wage_for_hour
+	1)
+		working_hours=4
 		;;
 	esac
-let day++
+echo $working_hours
+}
+
+# calculating daily wage of Employee
+Employee_wage_for_hour()
+{
+	work_hrs=$1
+	salary=$(($((WAGE_PER_HOUR * work_hrs)) ))
+	echo $salary
+}
+
+while [ $day -le 20 -a $hour -lt 100 ]
+do
+	work_hour="$(get_working_hours)"
+	arr[day]="$(Employee_wage_for_hour $work_hour)"
+	hour=$((hour+ work_hour))
+	total_salary=$((total_salary + ${arr[day]}))
+	let day++
 
 done
 
-
 # printing 100 hours salary
-echo "monthly salary is: " $salary
+echo "daily salary is: " ${arr[@]}
+if [ $hour -gt 100 ]
+then	
+	diff=$((hour-100))
+	total_salary=$((total_salary - $(( $diff * WAGE_PER_HOUR )) ))
+	echo "Total salary is: " $total_salary
+else
+	echo "Total salary is: " $total_salary
+fi
+
 
 
