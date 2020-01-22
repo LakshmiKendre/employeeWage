@@ -35,15 +35,14 @@ Employee_wage_for_hour()
 while [ $day -le 20 -a $hour -lt 100 ]
 do
 	work_hour="$(get_working_hours)"
-	arr[day]="$(Employee_wage_for_hour $work_hour)"
 	hour=$((hour+ work_hour))
-	total_salary=$((total_salary + ${arr[day]}))
+	total_salary=$((total_salary + "$(Employee_wage_for_hour $work_hour)"))
 	let day++
 
 done
 
 # printing 100 hours salary
-echo "daily salary is: " ${arr[@]}
+
 if [ $hour -gt 100 ]
 then	
 	diff=$((hour-100))
