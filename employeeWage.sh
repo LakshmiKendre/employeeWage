@@ -15,10 +15,13 @@ get_working_hours()
 	attendance=$((RANDOM%2))
 	case $attendance in
 	0)
-		working_hours=8
+		working_hours=4
 		;;
 	1)
-		working_hours=4
+		working_hours=8
+		;;
+	*)
+		working_hours=0
 		;;
 	esac
 echo $working_hours
@@ -52,6 +55,3 @@ then
 else
 	echo "Total salary is: " $total_salary
 fi
-
-
-
